@@ -63,5 +63,5 @@ website: string;
 
 export interface UserModalProps {
   onClose: () => void;
-  onSubmit: (user: UserData) => void;
+  onSubmit: (user: UserProps) => void;
 }
