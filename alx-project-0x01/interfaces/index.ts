@@ -11,7 +11,7 @@ export interface GeoProps {
 }
 
 export interface AddressProps {
-  street : string;
+  street: string;
   suite: string;
   city: string;
   zipcode: string;
