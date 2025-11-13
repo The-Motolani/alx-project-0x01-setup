@@ -1,25 +1,49 @@
 import Header from '@/components/layout/Header';
 import UserCard from '@/components/common/UserCard';
 import { UserProps } from '@/interfaces';
+import { useState } from 'react';
+import { UserData, UserModalProps } from '@/interfaces';
+import Footer from "@/components/layout/Footer";
+import UserModal from '@/components/common/UserModal';
 
-
-const Users: React.FC<UserProps[]> = ({posts}) =>
+const Users: React.FC<UserProps[]> = ({users}) =>
 {
-    return (
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [user, setUser] = useState<UserData | null>(null);
+    
+    const handleAddUser = (newPost: PostData) => {
+        setPost({...newUser, id: users.length + 1 });
+};
+
+return (
         <>
-        <Header />
-        <div className="p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        <div className="flex flex-col h-screen">
+      <Header />
+      <main className='p-4'>
+        <div className="flex justify-between">
+      <h1 className=" text-2xl font-semibold">
         User Directory
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <button onClick={() => setModalOpen(true)}
+      className="bg-blue-700 px-4 py-2 rounded-full text-white">
+        Add User
+        </button>
+        </div>
+      <div className="grid grid-cols-3 gap-2">
 
         {
-        posts.map(({name, username, email, phone, company, website, address, geo, id }: UserProps, key: number) => (
+        users.map(({name, username, email, phone, company, website, address, geo, id }: UserProps, key: number) => (
           <UserCard name={name} username={username} email={email} phone={phone} company={company} website={website} address={address} geo={geo} id={id} key={key} />
         ))
         }
-      </div>
+        </div>
+      </main>
+      <Footer />
+
+      {isModalOpen && (
+        <UserModal onClose={() => setModalOpen(false)} onSubmit={handleAddUser}/>
+
+      )}
     </div> 
     </>
     );
@@ -27,11 +51,11 @@ const Users: React.FC<UserProps[]> = ({posts}) =>
 
 export async function getStaticProps() {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
-  const posts = await response.json();
+  const users = await response.json();
 
   return {
     props: {
-      posts,
+      users,
     },
   };
 }
