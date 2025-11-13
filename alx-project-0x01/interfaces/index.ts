@@ -1,3 +1,7 @@
+export interface Post {
+  post: Post;
+}
+
 export interface PostProps {
     userId: number;
     id: number;
@@ -34,4 +38,16 @@ export interface UserProps {
   phone: string;
   website: string;
   company: CompanyProps;
+}
+
+export interface PostData {
+  userId: number;
+  id?: number;
+  title: string;
+  body: string;
+}
+
+export interface PostModalProps {
+  onClose: () => void;
+  onSubmit: (post: PostData) => void;
 }
